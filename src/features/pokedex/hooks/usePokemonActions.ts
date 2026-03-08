@@ -5,8 +5,6 @@ import { useMiniDexStore } from "@/stores/useMiniDexStore"
 import { useMemo, useState } from "react"
 import type { UsePokemonActionsReturn } from "../types/pokedex.types"
 
-export const MIN_LEVEL_TO_EVOLVE = 5
-export const EVOLUTION_COST = 100
 export function usePokemonActions(currentPokemon:Pokemon | null):UsePokemonActionsReturn {
     const updatePokemonEverywhere = useMiniDexStore((s) => s.updatePokemonEverywhere)
     const setPokemonTeam = useMiniDexStore((s) => s.setPokemonTeam)
