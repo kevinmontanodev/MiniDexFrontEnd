@@ -2,7 +2,6 @@ import {create} from "zustand"
 
 type AlertMode = "alert" | "confirm"
 
-console.log("state")
 interface AlertState {
     show:boolean,
     title: string,
