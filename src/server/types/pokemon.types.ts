@@ -26,7 +26,7 @@ export interface PackPokemonResponse {
     rarity: "COMMON" | "UNCOMMON" | "RARE" | "LEGENDARY";
 }
 
-interface Sprites {
+export interface Sprites {
     mainImage: string
     smallFront: string
     smallBack: string
@@ -46,7 +46,7 @@ interface Type {
 }
 
 
-interface Move {
+export interface Move {
     moveName: string
     type: string
     power: number | null
