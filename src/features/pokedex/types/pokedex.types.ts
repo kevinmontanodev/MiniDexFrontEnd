@@ -26,7 +26,8 @@ export interface UsePokedexReturn{
     prevPage: () => void
     setPage: (page: number) => void
     selectPokemon: (pokemon:Pokemon) => void
-    hoverPokemon: (pokemon:Pokemon) => void,
+    hoverPokemon: (pokemon:Pokemon) => void
+    orderByNumPokedex: () => void
 }
 
 export interface UsePokemonTeamReturn {
@@ -66,7 +67,8 @@ export interface EvolPokemonResponse {
 // components types
 export interface Filter {
     pokemonType: string,
-    shiny: boolean
+    shiny: boolean,
+    orderByPokedex: boolean
 }
 
 export interface PokemonCardProps {
@@ -90,6 +92,7 @@ export interface FilterProps {
     changeFilter: (filter:string) => void
     filters: Filter
     toggleShiny: () => void
+    order: () => void
 }
 
 export interface FilterOptionProps {
