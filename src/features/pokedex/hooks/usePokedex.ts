@@ -14,7 +14,7 @@ export function usePokedex({pokemonList}: {pokemonList: Pokemon[]}) : UsePokedex
         setPokedex(pokemonList)
     }, [pokemonList])
 
-    const {filters, filteredPokemons, changeType, toggleShiny} = usePokedexFilters(pokedex)
+    const {filters, filteredPokemons, changeType, toggleShiny, orderByNumPokedex} = usePokedexFilters(pokedex)
 
     const pagination = usePagination(filteredPokemons)
 
@@ -24,6 +24,7 @@ export function usePokedex({pokemonList}: {pokemonList: Pokemon[]}) : UsePokedex
         filters,
         changeType,
         toggleShiny,
+        orderByNumPokedex,
         ...pagination,
         ...interactions
     }

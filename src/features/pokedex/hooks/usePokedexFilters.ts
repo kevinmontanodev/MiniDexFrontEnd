@@ -4,7 +4,8 @@ import { useMemo, useState } from "react";
 export function usePokedexFilters(pokedex: Pokemon[]){
     const [filters, setFilters] = useState({
         pokemonType: "ALL",
-        shiny: false
+        shiny: false,
+        orderByPokedex: false
     })
 
     const changeType = (type: string) => {
@@ -13,6 +14,10 @@ export function usePokedexFilters(pokedex: Pokemon[]){
 
     const toggleShiny = () => {
         setFilters(prev => ({...prev, shiny: !prev.shiny}))
+    }
+
+    const orderByNumPokedex = () => {
+        setFilters(prev => ({...prev, orderByPokedex: !prev.orderByPokedex}))
     }
 
     const filteredPokemons = useMemo(() => {
@@ -28,6 +33,12 @@ export function usePokedexFilters(pokedex: Pokemon[]){
             result = result.filter(p => p.shiny)
         }
 
+        if (filters.orderByPokedex){
+            const copy = [...result]
+
+            return copy.sort((a, b) => a.numPokedex - b.numPokedex)
+        }
+
         return result
 
     }, [pokedex, filters])
@@ -36,6 +47,7 @@ export function usePokedexFilters(pokedex: Pokemon[]){
         filters,
         filteredPokemons,
         changeType,
-        toggleShiny
+        toggleShiny,
+        orderByNumPokedex
     }
 }

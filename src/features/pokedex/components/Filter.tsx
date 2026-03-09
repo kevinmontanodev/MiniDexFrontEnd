@@ -4,7 +4,7 @@ import { FilterOption } from "./FilterOption"
 import gsap from "gsap"
 import type { Filter, FilterProps } from "../types/pokedex.types"
 
-export function Filter({filters, changeFilter, toggleShiny}: FilterProps ){
+export function Filter({filters, changeFilter, toggleShiny, order}: FilterProps ){
     const [showOptions, setShowOptions] = useState(false)
     const containerRef = useRef<HTMLDivElement>(null)
     
@@ -35,6 +35,14 @@ export function Filter({filters, changeFilter, toggleShiny}: FilterProps ){
     return (
         <div className="flex items-center justify-end">
             <div className="flex items-center gap-2 px-2 text-white">
+                <div className="flex items-center gap-2 px-2">
+                    <p>
+                        Order
+                    </p>
+                    <div className={`flex items-center w-10 h-5 bg-white/20 p-1 rounded-full cursor-pointer`} onClick={order}>
+                        <span className={`flex h-4 w-4 rounded-full transition-all duration-300 ${filters.orderByPokedex ? 'ml-4 bg-violet-700' : 'ml-0 bg-white'}`}></span>
+                    </div>
+                </div>
                 <div className="flex items-center gap-2 px-2 relative">
                     <p>
                         Filter 

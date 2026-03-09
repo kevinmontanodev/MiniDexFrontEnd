@@ -16,7 +16,7 @@ export function PokedexContainer({pokemonList}:{pokemonList: Pokemon[] }){
         nextPage, 
         setPage, 
         visiblePages,
-        currentPage, filters, changeType, toggleShiny} = usePokedex({pokemonList})
+        currentPage, filters, changeType, toggleShiny, orderByNumPokedex} = usePokedex({pokemonList})
 
     const animatedPageChange = (callback: () => void) => {
         const cards = containerRef.current?.querySelectorAll(".pokemon-card")
@@ -48,7 +48,7 @@ export function PokedexContainer({pokemonList}:{pokemonList: Pokemon[] }){
 
     return (
         <div className="[grid-area:pokedex]">
-            <Filter filters={filters} changeFilter={changeType} toggleShiny={toggleShiny} />
+            <Filter filters={filters} changeFilter={changeType} order={orderByNumPokedex} toggleShiny={toggleShiny} />
             <div ref={containerRef} className="flex flex-wrap gap-1 max-w-2xl px-4 py-2 h-56">
                 {pokemonList.length === 0 ? 
                 (<p>You don't have any Pokémon in your Pokédex.</p>) : 
