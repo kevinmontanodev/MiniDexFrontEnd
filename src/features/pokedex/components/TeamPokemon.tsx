@@ -3,9 +3,11 @@ import { PokemonCard } from "@/features/pokedex/components/PokemonCard"
 import { PokemonCardSkeleton } from "@/components/skeletons/PokemonCardSkeleton"
 import { usePokemonTeam } from "../hooks/usePokemonTeam"
 import { AnimatePresence, motion } from "framer-motion"
+import { useMiniDexStore } from "@/stores/useMiniDexStore"
 
 export function TeamPokemon({pokemonTeamFromRequest} : {pokemonTeamFromRequest: Pokemon[]}){
     const { pokemonTeam, removeFromTeam, spaceToFill } = usePokemonTeam(pokemonTeamFromRequest)
+    const setCurrentPokemonDetails = useMiniDexStore(s => s.setCurrentPokemonDetails)
 
     return (
         <section className="bg-black/20 rounded overflow-hidden">
@@ -24,7 +26,7 @@ export function TeamPokemon({pokemonTeamFromRequest} : {pokemonTeamFromRequest: 
                             exit={{opacity: 0, scale: 0.8}}
                             transition={{type: "spring", stiffness: 300, damping: 25}}
                         >
-                            <PokemonCard pokemon={p} handleClick={() => removeFromTeam(p.uuid)} onHover={() => {}} isTeamCard={true} />
+                            <PokemonCard pokemon={p} handleClick={() => removeFromTeam(p.uuid)} onHover={() => setCurrentPokemonDetails(p)} isTeamCard={true} />
                         </motion.div>
                     ))}
                     {Array.from({length: spaceToFill}).map((_, i) => (
