@@ -1,4 +1,3 @@
-import { BATTLE_WITH_FAINT_SWITCH, battleTurnMock } from "@/mocks/battleTurn";
 import { handleApiError } from "@/server/errors/handleApiError";
 import { battleTurn } from "@/server/services/battle.service";
 import type { APIRoute } from "astro";
