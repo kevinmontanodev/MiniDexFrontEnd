@@ -5,7 +5,7 @@ import { Button } from "@/components/ui/Button"
 import { useAlertStore } from "@/stores/useAlertStore"
 import gsap from "gsap"
 import { useEffect, useRef, useState } from "react"
-import { EVOLUTION_COST, MIN_LEVEL_TO_EVOLVE } from "../hooks/usePokemonActions"
+import { EVOLUTION_COST, MIN_LEVEL_TO_EVOLVE } from "../const/const.utils" 
 import { useMiniDexStore } from "@/stores/useMiniDexStore"
 import type { EvolutionModalProps } from "../types/pokedex.types"
 
