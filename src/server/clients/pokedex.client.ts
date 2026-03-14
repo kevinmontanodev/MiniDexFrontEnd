@@ -2,8 +2,17 @@ import type { EvolPokemonResponse, PokedexResponse, PokemonTeamResponse, RemoveP
 import { backendFetch } from "./backend.client";
 
 
-export function fetchMyPokedex(token:string){
-    return backendFetch<PokedexResponse>("/trainers/me/pokedex", {
+export function fetchMyPokedex(token:string, page: string, size: string, type?: string, shiny?: string, order?: string){
+    const params = new URLSearchParams()
+
+    params.set("page", page)
+    params.set("size", size)
+
+    if (type) params.set("type", type)
+    if (shiny) params.set("shiny", shiny)
+    if (order) params.set("orderByPokedex", order)
+
+    return backendFetch<PokedexResponse>(`/trainers/me/pokedex?${params}`, {
         headers: {
             Authorization: `Bearer ${token}`
         }
