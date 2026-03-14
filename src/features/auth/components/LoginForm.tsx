@@ -38,28 +38,28 @@ export function LoginForm(){
                 </div>
             )}
     
-            <form onSubmit={handleSubmit} className={`${!isLogin ? 'h-72' : 'h-60'} bg-white/20 p-4 rounded-md flex flex-col gap-2 transition-all duration-300 `}>
-                <h2 className="text-center text-2xl font-bold text-white/90 pb-2">{!isLogin ? 'Register' : 'Login'}</h2>
+            <form onSubmit={handleSubmit} className={`${!isLogin ? 'h-72' : 'h-60'} bg-white/20 backdrop-blur-xs p-4 rounded-md flex flex-col gap-2 transition-all duration-300 fade-in`}>
+                <h2 className="text-center text-2xl font-bold text-white pb-2">{!isLogin ? 'Register' : 'Login'}</h2>
                 <fieldset className={`overflow-hidden`}>
                     <input type="text" value={userData.name} name="name" placeholder="Enter your name" required={!isLogin} onChange={handleChange}
-                    className={`${!isLogin ? '' : 'hidden'} bg-zinc-200/40 p-2 rounded-md outline-0 show`}
+                    className={`${!isLogin ? '' : 'hidden'} bg-white/60 p-2 rounded-md outline-0 show`}
                     />
                 </fieldset>
 
                 <fieldset>
                     <input type="text" value={userData.username} name="username" placeholder="Enter your username" required onChange={handleChange}
-                    className="bg-zinc-200/40 p-2 rounded-md outline-0 "
+                    className="bg-white/60 p-2 rounded-md outline-0 "
                     />
                 </fieldset>
 
                 <fieldset>
                     <input type="password" value={userData.password} name="password" placeholder="Enter your password" required onChange={handleChange}
-                    className="bg-zinc-200/40 p-2 rounded-md outline-0"
+                    className="bg-white/60 p-2 rounded-md outline-0"
                     />
                 </fieldset>
 
                 <fieldset className="flex justify-center">
-                    <span className="text-sm text-zinc-100 underline cursor-pointer" onClick={changeLoginForm}>
+                    <span className="text-sm text-zinc-700 underline cursor-pointer" onClick={changeLoginForm}>
                         {!isLogin ? 'Do you already have an account?' : 'Create account'}
                     </span>
                 </fieldset>
