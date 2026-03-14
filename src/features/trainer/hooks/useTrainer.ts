@@ -2,24 +2,19 @@ import { useAlertStore } from "@/stores/useAlertStore";
 import { useMiniDexStore } from "@/stores/useMiniDexStore";
 import { useEffect, useState, type ChangeEvent } from "react";
 import { updateTrainerData } from "../services/trainer.service";
-import type { UserData, UseTrainerReturn } from "../types/trainer.types";
+import type { TrainerProfile, UserData, UseTrainerReturn } from "../types/trainer.types";
 
-export function useTrainer() : UseTrainerReturn {
+export function useTrainer(trainerProfile: TrainerProfile) : UseTrainerReturn {
     const [showModal, setShowModal] = useState(false);
-    const [userData, setUserData] = useState<UserData>({name: "", username:""});
+    const [userData, setUserData] = useState<UserData>({name: trainerProfile.name, username: trainerProfile.username});
     const setTrainer = useMiniDexStore(state => state.setTrainer) 
     const trainer = useMiniDexStore(state => state.trainer)
-    const pokedex = useMiniDexStore(state => state.pokedex)
     const {alert} = useAlertStore()
 
     useEffect(() => {
-        if (trainer){
-            setUserData({
-                name : trainer?.name,
-                username: trainer.username
-            })
-        }
-    }, [trainer])
+        const {caughtPokemons, ...trainerData} = trainerProfile
+        setTrainer({...trainerData})
+    }, [])
     
     const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
         setUserData(prev => ({
@@ -60,7 +55,7 @@ export function useTrainer() : UseTrainerReturn {
         handleChange,
         openModal,
         showModal,
-        catchedPokemons: pokedex.length,
+        caughtPokemons: trainerProfile.caughtPokemons,
         userData,
         closeModal,
         trainer
