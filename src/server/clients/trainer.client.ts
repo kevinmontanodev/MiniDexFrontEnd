@@ -1,9 +1,9 @@
 import type { LoginResponse } from "@/server/types/auth.types";
-import type { DailyPackStatusResponse, EnvelopeResponse, TrainerResponse, UpdateNameAndTrainerUsernameRequest } from "@/server/types/trainer.types";
+import type { DailyPackStatusResponse, EnvelopeResponse, TrainerProfileResponse, UpdateNameAndTrainerUsernameRequest } from "@/server/types/trainer.types";
 import { backendFetch } from "./backend.client";
 
 export function fetchTrainerData(token:string){
-    return backendFetch<TrainerResponse>("/trainers/me", {
+    return backendFetch<TrainerProfileResponse>("/trainers/me", {
         headers: {
             Authorization: `Bearer ${token}`
         }
