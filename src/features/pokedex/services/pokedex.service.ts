@@ -1,24 +1,38 @@
-import type { Pokemon } from "@/interfaces/pokemon";
-import type { EvolPokemonResponse, TransferPokemonResponse } from "../types/pokedex.types";
+import type { EvolPokemonResponse, PokedexPageInfo, TransferPokemonResponse } from "../types/pokedex.types";
 
-export const getPokedex = async (token :string) : Promise<Pokemon[]> => {
-    if (!token || token == "") return []
-
+export const getPokedex = async ({page = 0, size = 12, type, shiny, orderByPokedex}:
+    {page?:number, size?:number, type?:string, shiny?:boolean, orderByPokedex?:boolean}) : Promise<PokedexPageInfo> => {
     try  {
-        const res = await fetch("http://localhost:8080/trainers/me/pokedex", {
-            headers :  {
-                "Authorization": `Bearer ${token}`,
-                "Content-Type": "application/json"
-            },
-            method : "GET"
-        })
+        const params = new URLSearchParams()
+
+        params.set("page", page.toString())
+        params.set("size", size.toString())
+
+        if (type && type !== "ALL") {
+            console.log("type in service front: ", type)
+            params.set("type", type)
+        }
+
+        if (shiny) {
+            params.set("shiny", "true")
+        }
+
+        if (orderByPokedex) {
+            params.set("orderByPokedex", "true")
+        }
+
+        const res = await fetch(`/api/pokedex?${params}`)
 
         if (!res.ok) throw new Error(`Error ${res.status}`)
-     
+
         return res.json()
     } catch (e) {
-        console.log(e)
-        return []
+        return {
+            pokemons: [],
+            page: 0,
+            totalPages: 0,
+            totalElements: 0
+        }
     }
 }
 
@@ -36,7 +50,6 @@ export const removePokemonFromPokedex = async (id:string): Promise<TransferPokem
         
         return {success: true, data : data}
     } catch (error) {
-        console.error(error)
         return {success: false, message: "Server connection error"}
     }
 }
