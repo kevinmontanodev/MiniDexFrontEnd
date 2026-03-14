@@ -1,8 +1,10 @@
 import type { PokemonResponse } from "./pokemon.types";
 
 export interface PokedexResponse {
-    pokemonTeam: PokemonResponse[]
-    pokedex: PokemonResponse[]
+    pokemons: PokemonResponse[]
+    page: number
+    totalPages: number
+    totalElements:number
 }
 
 export interface PokemonTeamResponse {
