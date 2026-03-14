@@ -1,14 +1,15 @@
 import { useMiniDexStore } from "@/stores/useMiniDexStore"
 import { Coins } from "@/components/icons/Coins"
-import type { Trainer } from "@/interfaces/trainer"
 import { useEffect } from "react"
+import type { TrainerProfile } from "../types/trainer.types"
 
-export function TrainerInfo({trainerResponse}:{trainerResponse:Trainer}){
+export function TrainerInfo({trainerResponse}:{trainerResponse:TrainerProfile}){
     const setTrainer = useMiniDexStore(s => s.setTrainer)
     const trainer = useMiniDexStore(s => s.trainer)
     
     useEffect(() => {
-        setTrainer({...trainerResponse})
+        const {caughtPokemons, ...trainerData} = trainerResponse
+        setTrainer({...trainerData})
     }, [])
 
     return (

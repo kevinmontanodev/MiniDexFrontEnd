@@ -1,9 +1,10 @@
 import { Config } from "@/components/icons/Config";
 import { useTrainer } from "../hooks/useTrainer";
 import { UpdateTrainerForm } from "./UpdateTrainerForm";
+import type { TrainerProfile } from "../types/trainer.types";
 
-export function TrainerProfile(){
-    const {trainer, userData, openModal, closeModal, catchedPokemons, showModal, updateTrainer, handleChange} = useTrainer()
+export function TrainerProfile({trainerProfile}:{trainerProfile: TrainerProfile}){
+    const {trainer, userData, openModal, closeModal, caughtPokemons, showModal, updateTrainer, handleChange} = useTrainer(trainerProfile)
 
     return (
         <>
@@ -28,7 +29,7 @@ export function TrainerProfile(){
 
                 <fieldset className="p-2 bg-white/10 rounded-sm">
                     <p>POKEMONS IN POKEDEX</p>
-                    <span>{catchedPokemons}</span>
+                    <span>{caughtPokemons}</span>
                 </fieldset>
 
                 <fieldset className="p-2 bg-white/10 rounded-sm">

@@ -1,5 +1,6 @@
 import type { Trainer } from "@/interfaces/trainer"
 import type { ChangeEvent } from "react"
+import type { TrainerProfile } from "../components/TrainerProfile"
 
 // data helper
 export interface UserData {
@@ -10,7 +11,7 @@ export interface UserData {
 // hooks
 export interface UseTrainerReturn {
     showModal:boolean
-    catchedPokemons: number,
+    caughtPokemons: number,
     userData: UserData
     handleChange: (e: ChangeEvent<HTMLInputElement>) => void
     updateTrainer : () => Promise<void>
@@ -25,4 +26,17 @@ export interface UpdateTrainerFormProps{
     updateTrainer: () => Promise<void>
     closeModal:() => void
     handleChange: (e: ChangeEvent<HTMLInputElement>) => void 
+}
+
+
+// responses
+export interface TrainerProfile {
+    name: string
+    username: string
+    level: number
+    xp: number
+    coins: number,
+    wins: number,
+    loses: number,
+    caughtPokemons: number
 }
