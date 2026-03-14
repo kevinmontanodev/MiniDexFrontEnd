@@ -1,14 +1,15 @@
-import type { Pokemon } from "@/interfaces/pokemon";
 import { PokemonCard } from "./PokemonCard";
 import { usePokedex } from "../hooks/usePokedex";
 import { useEffect, useRef } from "react";
 import gsap from "gsap";
 import { Filter } from "./Filter";
 import { Pagination } from "./Pagination";
+import type { PokedexPageInfo } from "../types/pokedex.types";
+import { PokemonCardSkeleton } from "@/components/skeletons/PokemonCardSkeleton";
 
-export function PokedexContainer({pokemonList}:{pokemonList: Pokemon[] }){
+export function PokedexContainer({pokedexPage}:{pokedexPage: PokedexPageInfo }){
     const containerRef = useRef<HTMLDivElement>(null)
-    const {paginatedItems, 
+    const {pokemons, 
         hoverPokemon, 
         selectPokemon, 
         totalPages, 
@@ -16,7 +17,7 @@ export function PokedexContainer({pokemonList}:{pokemonList: Pokemon[] }){
         nextPage, 
         setPage, 
         visiblePages,
-        currentPage, filters, changeType, toggleShiny, orderByNumPokedex} = usePokedex({pokemonList})
+        currentPage, filters, changeType, toggleShiny, toggleOrder} = usePokedex(pokedexPage)
 
     const animatedPageChange = (callback: () => void) => {
         const cards = containerRef.current?.querySelectorAll(".pokemon-card")
@@ -44,16 +45,16 @@ export function PokedexContainer({pokemonList}:{pokemonList: Pokemon[] }){
         }, containerRef)
 
         return () => ctx.revert()
-    }, [paginatedItems])
+    }, [pokemons])
 
     return (
         <div className="[grid-area:pokedex]">
-            <Filter filters={filters} changeFilter={changeType} order={orderByNumPokedex} toggleShiny={toggleShiny} />
+            <Filter filters={filters} changeFilter={changeType} order={toggleOrder} toggleShiny={toggleShiny} />
             <div ref={containerRef} className="flex flex-wrap gap-1 max-w-2xl px-4 py-2 h-56">
-                {pokemonList.length === 0 ? 
-                (<p>You don't have any Pokémon in your Pokédex.</p>) : 
+                {pokemons.length === 0 ? 
+                (<PokemonCardSkeleton/>) : 
                 (
-                    paginatedItems.map((p) => <PokemonCard key={p.uuid} pokemon={p} onHover={hoverPokemon} handleClick={selectPokemon} />)
+                    pokemons.map((p) => <PokemonCard key={p.uuid} pokemon={p} onHover={hoverPokemon} handleClick={selectPokemon} />)
                 )}
             </div>
             <div>

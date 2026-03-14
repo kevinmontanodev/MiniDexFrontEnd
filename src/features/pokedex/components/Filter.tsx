@@ -48,7 +48,7 @@ export function Filter({filters, changeFilter, toggleShiny, order}: FilterProps 
                         Filter 
                     </p>
                     <picture className="cursor-pointer h-8 flex items-center" onClick={() => setShowOptions(!showOptions)}>
-                        <img src={TYPES_FILTERS[filters.pokemonType]} alt="" className="w-24 flex" />
+                        <img src={TYPES_FILTERS[filters.type]} alt="" className="w-24 flex" />
                     </picture>
                     {
                         showOptions &&

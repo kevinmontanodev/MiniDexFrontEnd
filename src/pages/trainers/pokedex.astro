@@ -4,18 +4,21 @@ import {PokedexContainer} from "@/features/pokedex/components/PokedexContainer"
 import { PokemonDetails } from "@/features/pokedex/components/PokemonDetails";
 import {TeamPokemon} from "@/features/pokedex/components/TeamPokemon"
 import type {Pokedex} from "@/interfaces/pokedex"
-import { getMyPokedex } from "@/server/services/pokedex.service";
+import { getMyPokedex, getPokemonTeam } from "@/server/services/pokedex.service";
 import type { Pokemon } from "@/interfaces/pokemon";
 import { StartBattleBtn } from "@/features/pokedex/components/StartBattleBtn";
+import type { PokedexPageInfo } from "@/features/pokedex/types/pokedex.types";
 
 if (!Astro.locals.token){
     return Astro.redirect("/login")
 }
 
-const res = await getMyPokedex(Astro.locals.token)
+const resPokedex = await getMyPokedex(Astro.locals.token, "0", "12")
 
-const pokedex = res.pokedex as Pokemon[]
-const pokemonTeam = res.pokemonTeam as Pokemon[]
+const resTeam = await getPokemonTeam(Astro.locals.token)
+
+const pokemonTeam = resTeam.team as Pokemon[]
+const pokedexPage = resPokedex as PokedexPageInfo
 ---
 
 <Layout title="MiniDex | Mi Pokedex">
@@ -26,7 +29,7 @@ const pokemonTeam = res.pokemonTeam as Pokemon[]
 
     <div class="grid-pokedex-container px-2 gap-1.5">
         <TeamPokemon client:load pokemonTeamFromRequest={pokemonTeam}  />
-        <PokedexContainer client:load pokemonList={pokedex} />
+        <PokedexContainer client:load pokedexPage={pokedexPage} />
         <PokemonDetails client:load/>
     </div>
 

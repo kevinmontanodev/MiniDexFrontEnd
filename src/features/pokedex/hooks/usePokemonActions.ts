@@ -4,17 +4,18 @@ import { useAlertStore } from "@/stores/useAlertStore"
 import { useMiniDexStore } from "@/stores/useMiniDexStore"
 import { useMemo, useState } from "react"
 import type { UsePokemonActionsReturn } from "../types/pokedex.types"
+import { usePokedexRefreshStore } from "../store/usePokedexRefreshStore"
 
 export function usePokemonActions(currentPokemon:Pokemon | null):UsePokemonActionsReturn {
-    const updatePokemonEverywhere = useMiniDexStore((s) => s.updatePokemonEverywhere)
     const setPokemonTeam = useMiniDexStore((s) => s.setPokemonTeam)
     const pokemonTeam = useMiniDexStore((s) => s.pokemonTeam)
-    const removePokemon = useMiniDexStore((s) => s.removePokemon)
     const trainer = useMiniDexStore((s) => s.trainer)
     const setCurrentPokemonDetails = useMiniDexStore((s) => s.setCurrentPokemonDetails)
     const setTrainer = useMiniDexStore((s) => s.setTrainer)
+    const refreshPokedex = usePokedexRefreshStore(s => s.refresh)
     const { alert, confirm } = useAlertStore()
     const [isEvolved, setIsEvolved] = useState(false)
+
 
     const isAlreadyInTeam = useMemo(() => {
         if (!currentPokemon) return false
@@ -38,14 +39,16 @@ export function usePokemonActions(currentPokemon:Pokemon | null):UsePokemonActio
             return
         }
 
+        setPokemonTeam(prev => [...prev, currentPokemon])
+        
         const result = await addPokemonToTeam(currentPokemon.uuid)
 
         if (!result.success) {
             alert("Error", result.message || "")
+            setPokemonTeam(prev => prev.filter(p => p.uuid !== currentPokemon.uuid))
             return
         }
         
-        setPokemonTeam(prev => [...prev, currentPokemon])
     }
 
     const handleRemoveFromTeam = async () => {
@@ -55,13 +58,15 @@ export function usePokemonActions(currentPokemon:Pokemon | null):UsePokemonActio
 
         if (!accepted) return
 
+        setPokemonTeam(prev => prev.filter(p => p.uuid !== currentPokemon.uuid))
+        
         const result = await removePokemonFromTeam(currentPokemon.uuid)
         
         if (!result.success) {
             alert("Error", result.message || "")
+            setPokemonTeam(prev => [...prev, currentPokemon])
             return
         }
-        setPokemonTeam(prev => prev.filter(p => p.uuid !== currentPokemon.uuid))
     }
 
     const handleTransfer = async () => {
@@ -74,12 +79,12 @@ export function usePokemonActions(currentPokemon:Pokemon | null):UsePokemonActio
         const result = await removePokemonFromPokedex(currentPokemon.uuid)
 
         if (result.success && result.data) {
+            refreshPokedex()
             const data = result.data
             const receivedCoins = data.coins - (trainer?.coins || 0)
 
             setTrainer({ coins: data.coins, xp: data.xp, level: data.level })
             alert("Success!", `You received ${receivedCoins} coins`)
-            removePokemon(currentPokemon.uuid)
         }
     }
 
@@ -97,9 +102,9 @@ export function usePokemonActions(currentPokemon:Pokemon | null):UsePokemonActio
         const result = await evolvePokemon(currentPokemon.uuid)
 
         if (result.success && result.data){
+            refreshPokedex()
             const {trainerCoins, trainerLevel, trainerXp, evolvedPokemon} = result.data
             setTrainer({coins: trainerCoins, level: trainerLevel, xp: trainerXp})
-            updatePokemonEverywhere(evolvedPokemon)
             setCurrentPokemonDetails(evolvedPokemon)
             return
         }

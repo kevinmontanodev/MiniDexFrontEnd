@@ -1,7 +1,7 @@
 import { fetchMyPokedex, fetchMyPokemonTeam, fetchEvolPokemon, fecthAddPokemonToTeam, fetchRemovePokemonFromPokedex, fetchRemovePokemonFromTeam } from "../clients/pokedex.client";
 
-export async function getMyPokedex(token:string) {
-    return fetchMyPokedex(token)
+export async function getMyPokedex(token:string, page: string, size: string, type?: string, shiny?: string, order?: string) {
+    return fetchMyPokedex(token, page, size, type, shiny, order)
 }
 
 export async function getPokemonTeam(token:string) {
