@@ -1,6 +1,6 @@
 import type { PackPokemonResponse } from "./pokemon.types"
 
-export interface TrainerResponse {
+export interface TrainerProfileResponse {
     name: string
     username: string
     level: number
@@ -8,7 +8,7 @@ export interface TrainerResponse {
     coins: number,
     wins: number,
     loses: number,
-    dailyPackStatus: DailyPackStatusResponse
+    caughtPokemons: number
 }
 
 export interface UpdateNameAndTrainerUsernameRequest {
