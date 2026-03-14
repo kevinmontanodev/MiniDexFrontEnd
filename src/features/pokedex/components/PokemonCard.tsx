@@ -13,7 +13,7 @@ export function PokemonCard({pokemon, onHover, handleClick, isTeamCard}: Pokemon
             className={`pokemon-card w-24 ${teamCardStyle} rounded p-1 ${isCurrent} text-center shadow-md overflow-hidden cursor-pointer hover:bg-white/10`}
         >
             <figure className="bg-black/10 rounded flex w-full h-full items-center justify-center overflow-hidden">
-                <img src={pokemon.sprites.smallFront} alt={pokemon.name} className="w-auto" />
+                <img src={pokemon.sprites.smallFront} alt={pokemon.name} className="w-auto appear" />
             </figure>
             {isTeamCard && <p>{pokemon.name}</p>}
         </div>
