@@ -18,7 +18,7 @@ export interface UsePokedexReturn{
     filters: Filter,
     changeType: (type: string) => void
     toggleShiny: () => void
-    paginatedItems: Pokemon[]
+    pokemons: Pokemon[]
     currentPage: number
     totalPages: number
     visiblePages: number[],
@@ -27,7 +27,7 @@ export interface UsePokedexReturn{
     setPage: (page: number) => void
     selectPokemon: (pokemon:Pokemon) => void
     hoverPokemon: (pokemon:Pokemon) => void
-    orderByNumPokedex: () => void
+    toggleOrder: () => void
 }
 
 export interface UsePokemonTeamReturn {
@@ -63,10 +63,16 @@ export interface EvolPokemonResponse {
 }
 
 
-
 // components types
+export interface PokedexPageInfo {
+    pokemons: Pokemon[]
+    page: number
+    totalPages: number
+    totalElements:number
+}
+
 export interface Filter {
-    pokemonType: string,
+    type: string,
     shiny: boolean,
     orderByPokedex: boolean
 }
