@@ -1,31 +1,82 @@
-import type { Pokemon } from "@/interfaces/pokemon";
-import { useMiniDexStore } from "@/stores/useMiniDexStore";
-import { useEffect } from "react";
-import type { UsePokedexReturn } from "../types/pokedex.types";
-import { usePokedexFilters } from "./usePokedexFilters";
-import { usePagination } from "./usePagination";
+import { useEffect, useMemo, useState } from "react";
+import type { PokedexPageInfo, UsePokedexReturn } from "../types/pokedex.types";
 import { usePokedexInteraction } from "./usePokedexInteractions";
+import { getVisiblePages } from "../utils/getVisiblePages";
+import { getPokedex } from "../services/pokedex.service";
+import { usePokedexRefreshStore } from "../store/usePokedexRefreshStore";
 
-export function usePokedex({pokemonList}: {pokemonList: Pokemon[]}) : UsePokedexReturn {
-    const setPokedex = useMiniDexStore(s => s.setPokedex)
-    const pokedex = useMiniDexStore(s => s.pokedex)
+export function usePokedex(initalPage: PokedexPageInfo) : UsePokedexReturn {
+    const [pageData, setPageData] = useState(initalPage)
+    const setRefresh = usePokedexRefreshStore(s => s.setRefresh)
+    const [filters, setFilters] = useState({
+        type: "ALL",
+        shiny: false,
+        orderByPokedex: false
+    })
+    const [currentPage, setCurrentPage] = useState(0)
 
     useEffect(() => {
-        setPokedex(pokemonList)
-    }, [pokemonList])
+        fetchPage(0)
+    }, [filters])
 
-    const {filters, filteredPokemons, changeType, toggleShiny, orderByNumPokedex} = usePokedexFilters(pokedex)
+    useEffect(() => {
+        setRefresh(refetch)
+    }, [refetch])
 
-    const pagination = usePagination(filteredPokemons)
+    async function refetch() {
+        const data = await getPokedex({page: currentPage, size: 12, type: filters.type, shiny: filters.shiny, orderByPokedex: filters.orderByPokedex})
+        
+        setPageData(data)
+    }
+
+    async function fetchPage(page = currentPage){
+        const data = await getPokedex({page, size: 12, type: filters.type, shiny: filters.shiny, orderByPokedex: filters.orderByPokedex})
+
+        setPageData(data)
+        setCurrentPage(page)
+    }
+
+    function changeType(type: string){
+        const newFilters = {...filters, type}
+        setFilters(newFilters)
+    }
+
+    function toggleShiny(){
+        const newFilters = {...filters, shiny: !filters.shiny}
+        setFilters(newFilters)
+    }
+
+    function toggleOrder(){
+        const newFilters = {...filters, orderByPokedex: !filters.orderByPokedex}
+        setFilters(newFilters)
+    }
+
+    function nextPage(){
+        fetchPage(currentPage + 1)
+    }
+
+    function prevPage(){
+        fetchPage(Math.max(0, currentPage - 1))
+    }
+
+    const visiblePages = useMemo(() => {
+        return getVisiblePages(currentPage, pageData.totalPages)
+    }, [currentPage, pageData.totalPages])
 
     const interactions = usePokedexInteraction()
 
     return {
+        pokemons: pageData.pokemons,
+        totalPages: pageData.totalPages,
+        currentPage,
         filters,
+        visiblePages,
         changeType,
         toggleShiny,
-        orderByNumPokedex,
-        ...pagination,
+        toggleOrder,
+        nextPage,
+        prevPage,
+        setPage: fetchPage,
         ...interactions
     }
 }
