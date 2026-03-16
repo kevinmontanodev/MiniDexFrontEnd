@@ -33,11 +33,13 @@ export default function PackOpening({ pokemons }: {pokemons: PackPokemon[]}) {
                 opacity: 1,
                 scale: 1,
                 stagger: 0.8
-            }, "+=0.4");
+            }, "+=0.4")
+            .call(() => {
+                playSound("showPokemonPack")
+            }, [], "<");
 
         }, containerRef);
 
-        playSound("showPokemonPack")
 
         return () => ctx.revert();
     }, [pokemons]);
