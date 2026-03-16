@@ -7,6 +7,7 @@ import { usePokedexRefreshStore } from "../store/usePokedexRefreshStore";
 
 export function usePokedex(initalPage: PokedexPageInfo) : UsePokedexReturn {
     const [pageData, setPageData] = useState(initalPage)
+    const [loading, setLoading] = useState(false)
     const setRefresh = usePokedexRefreshStore(s => s.setRefresh)
     const [filters, setFilters] = useState({
         type: "ALL",
@@ -24,16 +25,20 @@ export function usePokedex(initalPage: PokedexPageInfo) : UsePokedexReturn {
     }, [refetch])
 
     async function refetch() {
+        setLoading(true)
         const data = await getPokedex({page: currentPage, size: 12, type: filters.type, shiny: filters.shiny, orderByPokedex: filters.orderByPokedex})
         
         setPageData(data)
+        setLoading(false)
     }
 
     async function fetchPage(page = currentPage){
+        setLoading(true)
         const data = await getPokedex({page, size: 12, type: filters.type, shiny: filters.shiny, orderByPokedex: filters.orderByPokedex})
 
         setPageData(data)
         setCurrentPage(page)
+        setLoading(false)
     }
 
     function changeType(type: string){
@@ -77,6 +82,7 @@ export function usePokedex(initalPage: PokedexPageInfo) : UsePokedexReturn {
         nextPage,
         prevPage,
         setPage: fetchPage,
+        loading,
         ...interactions
     }
 }
