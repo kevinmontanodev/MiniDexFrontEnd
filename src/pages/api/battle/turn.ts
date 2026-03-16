@@ -6,7 +6,7 @@ export const POST:APIRoute = async ({locals, request}) => {
     try {
         const token = locals.token
         
-        if (!token) return Response.json({message: "Unahutorize"}, {status: 404})
+        if (!token) return Response.json({message: "Unahutorize"}, {status: 403})
         
         const body = await request.json()
 
