@@ -4,6 +4,7 @@ import { useGSAP } from "@gsap/react"
 import gsap from "gsap"
 import { useRef, useState } from "react"
 import type { UseFinishBattleAnimationReturn } from "../types/battle.types"
+import { playSound } from "@/features/audio/utils/playSound"
 
 export function useFinishBattleAnimation(rewards: FinisBattleData):UseFinishBattleAnimationReturn {
     const trainer = useMiniDexStore(s => s.trainer)
@@ -39,6 +40,10 @@ export function useFinishBattleAnimation(rewards: FinisBattleData):UseFinishBatt
                 
                 setShowButton(true)
             }
+        })
+
+        tl.call(() => {
+            isWin ? playSound("victory") : playSound("defeat")
         })
 
         tl.fromTo('.result-img', 
@@ -108,6 +113,8 @@ export function useFinishBattleAnimation(rewards: FinisBattleData):UseFinishBatt
                 top: -40,
                 ease: "power2.inOut"
             })
+
+            playSound("levelUp")
 
             tl.to('.levelUp-display', {
                 scale: 2.2,

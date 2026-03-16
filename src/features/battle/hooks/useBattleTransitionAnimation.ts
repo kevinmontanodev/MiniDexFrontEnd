@@ -3,6 +3,7 @@ import { useGSAP } from "@gsap/react";
 import gsap from "gsap"
 import { useEffect, useRef } from "react";
 import type { UseBattleTransitionAnimationReturn } from "../types/battle.types";
+import { playSound } from "@/features/audio/utils/playSound";
 
 export function useBattleTransitionAnimation(phase: string, setPhase: (phase: BattlePhase) => void) : UseBattleTransitionAnimationReturn {
     const rotateRef = useRef<gsap.core.Tween | null>(null)
@@ -60,6 +61,9 @@ export function useBattleTransitionAnimation(phase: string, setPhase: (phase: Ba
             opacity: 1,
             duration: .8
         })
+        tl.call(() => {
+            playSound("battleAwait")
+        })
         .fromTo(".t-half",
             {yPercent: -140},
             {yPercent: 0, duration: 0.5}
@@ -98,6 +102,9 @@ export function useBattleTransitionAnimation(phase: string, setPhase: (phase: Ba
         .to(".waiting-pokeball-bg", {
             "--p-opacity": 0,
             duration: 0.5,
+        })
+        .call(() => {
+            playSound("pokemonOut")
         })
         .fromTo(".t-half",
             {yPercent: 0},

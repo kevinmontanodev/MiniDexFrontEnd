@@ -1,11 +1,15 @@
-import { useEffect, useRef } from "react";
+import { useRef } from "react";
 import gsap from "gsap";
+import { playSound } from "@/features/audio/utils/playSound";
+import { useGSAP } from "@gsap/react";
 
 export function EnvelopeLoading() {
     const envelopeRef = useRef<HTMLDivElement>(null);
     const glowRef = useRef<HTMLDivElement>(null);
 
-    useEffect(() => {
+    useGSAP(() => {
+        playSound("openPack")
+
         const tl = gsap.timeline({ repeat: -1, yoyo: true });
 
         // Float

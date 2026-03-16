@@ -4,10 +4,12 @@ import { Button } from "@/components/ui/Button"
 import { getLevelProgress } from "../utils/getLevelProgress"
 import { useFinishBattleAnimation } from "../hooks/useFinishBattleAnimation"
 import type { FinisBattleData } from "../types/battle.types"
+import { useAudioStore } from "@/features/audio/store/useAudioStore"
 
 export function FinishBattleScene({ rewards }: { rewards: FinisBattleData }) {
     
     const {containerRef, xpBarRef, coinsRef, messageRef, displayCoins, displayXp, showButton} = useFinishBattleAnimation(rewards)
+    const stopAudio = useAudioStore(s => s.stopBgm)
 
     const isWin = rewards.playerWin
     const message = isWin ? 'You Win' : 'Enemy Win'
@@ -18,6 +20,7 @@ export function FinishBattleScene({ rewards }: { rewards: FinisBattleData }) {
 
     const handleResetBattle = async () => {
         clearBattle()
+        stopAudio()
         await navigate("/trainers/pokedex")
     }
 

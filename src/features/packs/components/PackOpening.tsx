@@ -1,39 +1,43 @@
-import { useEffect, useRef } from "react";
+import { useRef } from "react";
 import { gsap } from "gsap";
 import type { PackPokemon } from "@/interfaces/pokemon";
 import { CARD_RARITY } from "../const/cardRarityColors";
+import { playSound } from "@/features/audio/utils/playSound";
+import { useGSAP } from "@gsap/react";
 
 export default function PackOpening({ pokemons }: {pokemons: PackPokemon[]}) {
     const containerRef = useRef(null);
 
-    useEffect(() => {
+    useGSAP(() => {
         if (!pokemons?.length) return;
 
         const ctx = gsap.context(() => {
 
-        const tl = gsap.timeline({ defaults: { ease: "power3.out" } });
+            const tl = gsap.timeline({ defaults: { ease: "power3.out" } });
 
-        tl.to(".pack-card", {
-            scale: 1,
-            
-            opacity: 1,
-            stagger: 0.7,
-            y: 0,
-            duration: 0.8
-        })
-        .to(".pokemon-name", {
-            opacity: 1,
-            y: 0,
-            stagger: 0.7,
-            fontSize: 12,
-        }, "+=0.4")
-        .to(".pokemon-img", {
-            opacity: 1,
-            scale: 1,
-            stagger: 0.8
-        }, "+=0.4");
+            tl.to(".pack-card", {
+                scale: 1,
+                
+                opacity: 1,
+                stagger: 0.7,
+                y: 0,
+                duration: 0.8
+            })
+            .to(".pokemon-name", {
+                opacity: 1,
+                y: 0,
+                stagger: 0.7,
+                fontSize: 12,
+            }, "+=0.4")
+            .to(".pokemon-img", {
+                opacity: 1,
+                scale: 1,
+                stagger: 0.8
+            }, "+=0.4");
 
         }, containerRef);
+
+        playSound("showPokemonPack")
 
         return () => ctx.revert();
     }, [pokemons]);

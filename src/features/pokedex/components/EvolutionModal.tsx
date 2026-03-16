@@ -8,6 +8,7 @@ import { useEffect, useRef, useState } from "react"
 import { EVOLUTION_COST, MIN_LEVEL_TO_EVOLVE } from "../const/const.utils" 
 import { useMiniDexStore } from "@/stores/useMiniDexStore"
 import type { EvolutionModalProps } from "../types/pokedex.types"
+import { playSound } from "@/features/audio/utils/playSound"
 
 export function EvolutionModal({currentPokemon,closeModal, evolvePokemon} : EvolutionModalProps){
     const [animate, setAnimate] = useState(false)
@@ -71,7 +72,9 @@ export function EvolutionModal({currentPokemon,closeModal, evolvePokemon} : Evol
             // init states
             gsap.set(".result-text", {autoAlpha: 0, y: 20})
 
-
+            tl.call(() => {
+                playSound("evolution")
+            })
             // fadeout ui
             tl.to(".ui, .arrow, .next-poke", {
                 autoAlpha: 0,

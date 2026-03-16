@@ -4,10 +4,12 @@ import { PokemonCardSkeleton } from "@/components/skeletons/PokemonCardSkeleton"
 import { usePokemonTeam } from "../hooks/usePokemonTeam"
 import { AnimatePresence, motion } from "framer-motion"
 import { useMiniDexStore } from "@/stores/useMiniDexStore"
+import { useBgm } from "@/features/audio/hooks/useBgm"
 
 export function TeamPokemon({pokemonTeamFromRequest} : {pokemonTeamFromRequest: Pokemon[]}){
     const { pokemonTeam, removeFromTeam, spaceToFill } = usePokemonTeam(pokemonTeamFromRequest)
     const setCurrentPokemonDetails = useMiniDexStore(s => s.setCurrentPokemonDetails)
+    useBgm("menu")
 
     return (
         <section className="bg-black/20 rounded overflow-hidden">
@@ -31,12 +33,12 @@ export function TeamPokemon({pokemonTeamFromRequest} : {pokemonTeamFromRequest: 
                     ))}
                     {Array.from({length: spaceToFill}).map((_, i) => (
                         <motion.div 
-                            key={`skeleton-${i}`}
+                            key={`team-card-skeleton-${i}`}
                             layout
                             initial={{opacity: 0}}
                             animate={{opacity: 1}}
                         >
-                            <PokemonCardSkeleton heigth="h-28" />
+                            <PokemonCardSkeleton heigth="h-28" animate={false} />
                         </motion.div>
                     ))}
                 </AnimatePresence>
