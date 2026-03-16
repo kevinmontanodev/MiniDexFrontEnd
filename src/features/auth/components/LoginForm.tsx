@@ -1,12 +1,14 @@
 import {  useState, type FormEvent } from "react";
 import { useAlertStore } from "@/stores/useAlertStore";
 import { useAuth } from "../hooks/useAuth";
+import { useBgm } from "@/features/audio/hooks/useBgm";
 
 export function LoginForm(){
     const {handleChange, isLogin, submitTrainer, userData, changeLoginForm} = useAuth()
     const {alert} = useAlertStore()
     const [isLoading, setIsLoading] = useState(false)
     const [message, setMessage] = useState("processing...")
+    useBgm("login")
 
     const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault();
