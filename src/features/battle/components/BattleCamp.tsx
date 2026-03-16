@@ -9,12 +9,14 @@ import { FinishBattleScene } from "./FinishBattleScene";
 import { PlayerActionsPanel } from "./PlayerActionsPanel";
 import { BattleTeam } from "./BattleTeam";
 import { useBattleTurn } from "../hooks/useBattleTurn";
+import { useBgm } from "@/features/audio/hooks/useBgm";
 
 export function BattleCamp(){
     const {playerPokemon, enemyPokemon, playerHp, enemyHp,battleInfo, hasHydrated, enemyTeam, playerTeam, rewards } = useBattleStore()
     const {setPhase, phase, showFinish} = useBattleUIStore()
     const {currentMoveName, selectMove, playerSurrender, initBattle } = useBattleActions()
     const {events, playerTimer, updatePlayerTimer, executeAttack, executeSwitch} = useBattleTurn(currentMoveName, selectMove)
+    useBgm("battle")
 
     useEffect(() => {
         if (!hasHydrated) return
