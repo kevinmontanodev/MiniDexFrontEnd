@@ -27,7 +27,8 @@ export interface UsePokedexReturn{
     setPage: (page: number) => void
     selectPokemon: (pokemon:Pokemon) => void
     hoverPokemon: (pokemon:Pokemon) => void
-    toggleOrder: () => void
+    toggleOrder: () => void,
+    loading: boolean
 }
 
 export interface UsePokemonTeamReturn {
@@ -41,6 +42,7 @@ export interface TransferPokemon {
     coins: number
     xp: number
     level: number
+    coinsReceived: number
 }
 
 export interface TransferPokemonResponse {
