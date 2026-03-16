@@ -5,6 +5,7 @@ import { useMiniDexStore } from "@/stores/useMiniDexStore"
 import { useMemo, useState } from "react"
 import type { UsePokemonActionsReturn } from "../types/pokedex.types"
 import { usePokedexRefreshStore } from "../store/usePokedexRefreshStore"
+import { playSound } from "@/features/audio/utils/playSound"
 
 export function usePokemonActions(currentPokemon:Pokemon | null):UsePokemonActionsReturn {
     const setPokemonTeam = useMiniDexStore((s) => s.setPokemonTeam)
@@ -76,15 +77,17 @@ export function usePokemonActions(currentPokemon:Pokemon | null):UsePokemonActio
 
         if (!accepted) return
 
+        playSound("transferPokemon")
         const result = await removePokemonFromPokedex(currentPokemon.uuid)
 
         if (result.success && result.data) {
             refreshPokedex()
-            const data = result.data
-            const receivedCoins = data.coins - (trainer?.coins || 0)
+            setCurrentPokemonDetails(pokemonTeam[0] || null)
+            const {coinsReceived, ...rewards} = result.data
 
-            setTrainer({ coins: data.coins, xp: data.xp, level: data.level })
-            alert("Success!", `You received ${receivedCoins} coins`)
+            setTrainer({ ...rewards })
+            alert("Success!", `You received ${coinsReceived} coins`)
+            setPokemonTeam(prev => prev.filter(p=> p.uuid !== currentPokemon.uuid))
         }
     }
 
@@ -106,6 +109,11 @@ export function usePokemonActions(currentPokemon:Pokemon | null):UsePokemonActio
             const {trainerCoins, trainerLevel, trainerXp, evolvedPokemon} = result.data
             setTrainer({coins: trainerCoins, level: trainerLevel, xp: trainerXp})
             setCurrentPokemonDetails(evolvedPokemon)
+            setPokemonTeam(prev => 
+                prev.map(p => 
+                    p.uuid === currentPokemon.uuid ? evolvedPokemon : p
+                )
+            )
             return
         }
 
