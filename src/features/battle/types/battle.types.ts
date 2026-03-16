@@ -171,13 +171,13 @@ export interface BattleStore {
     eventQueue: BattleEvent[];
     isProcessing: boolean;
 
-    currentMessage: string | null
+    currentMessage: string[] | null
 
     rewards: FinisBattleData | null
 
     hasHydrated: boolean
 
-    setCurrentMessage: (message: string | null) => void;
+    setCurrentMessage: (message: string[] | null) => void;
     startBattle: (data:BattleInfo) => void;
     applyTurn: (response: BattleTurnResponse) => void;
     processEvent: (event: BattleEvent) => void;
