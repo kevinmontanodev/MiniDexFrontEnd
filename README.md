@@ -17,16 +17,26 @@ The application is organized using a **feature-based architecture**, where each 
 
 ## Project Structure
 ``` text
-public/ (utility images)
+public/ (utility images and audios)
 src/
 ├── components/
 │   ├── icons/
 │   ├── skeletons/
 │   ├── ui/
 │   │   └── GlobalAlert.tsx
+│   ├── Disclaimer.astro
 │   └── Header.astro
 ├── const/
 ├── features/
+│   ├── audio/
+│   |   ├── hooks
+|   |   |   └── useBgm.ts
+│   |   ├── store
+|   |   |   └── useAudioStore.ts
+│   |   ├── types
+|   |   |   └── audio.types.ts
+│   |   └── utils
+|   |       └── playSound.ts
 │   ├── auth/
 │   |   ├── components/
 │   |   ├── hooks/
@@ -510,3 +520,23 @@ All commands are run from the root of the project, from a terminal:
 | `npm run preview`         | Preview your build locally, before deploying     |
 | `npm run astro ...`       | Run CLI commands like `astro add`, `astro check` |
 | `npm run astro -- --help` | Get help using the Astro CLI                     |
+
+!important : you need the backen project to use the frontend and avoid errors
+
+## Related Repositories
+
+Application logic and detailed documentation can be found in the following repositories:
+
+Full Stack Aplication Repository (minidex-deploy)
+https://github.com/kevinmontanodev/minidex-deploy
+
+Backend Repository
+https://github.com/kevinmontanodev/MiniDexBackend
+
+Those repositories contain detailed documentation about:
+
+- Full aplication stack ready to be used witch docker
+- Backend architecture
+- Game mechanics
+- API design
+- State management
