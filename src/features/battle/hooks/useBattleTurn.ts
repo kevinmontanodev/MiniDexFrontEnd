@@ -27,6 +27,10 @@ export function useBattleTurn(currentMoveName:string | null, setCurrentMoveName:
             await battleAlreadyFinish()
             return
         }
+
+        if (playerPokemon?.fainted){
+            updatePlayerTimer(0)
+        }
     
         if (playerTimer > 0) {
             alert("Can't Switch", "You can't already switch")
