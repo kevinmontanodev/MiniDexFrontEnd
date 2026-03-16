@@ -16,6 +16,7 @@ export function PokedexContainer({pokedexPage}:{pokedexPage: PokedexPageInfo }){
         prevPage, 
         nextPage, 
         setPage, 
+        loading,
         visiblePages,
         currentPage, filters, changeType, toggleShiny, toggleOrder} = usePokedex(pokedexPage)
 
@@ -51,8 +52,8 @@ export function PokedexContainer({pokedexPage}:{pokedexPage: PokedexPageInfo }){
         <div className="[grid-area:pokedex]">
             <Filter filters={filters} changeFilter={changeType} order={toggleOrder} toggleShiny={toggleShiny} />
             <div ref={containerRef} className="flex flex-wrap gap-1 max-w-2xl px-4 py-2 h-56">
-                {pokemons.length === 0 ? 
-                (<PokemonCardSkeleton/>) : 
+                {loading ? 
+                (Array.from({length: 12}).map((_, i) => <PokemonCardSkeleton key={`card-skeleton-${i}`}/>)) : 
                 (
                     pokemons.map((p) => <PokemonCard key={p.uuid} pokemon={p} onHover={hoverPokemon} handleClick={selectPokemon} />)
                 )}
