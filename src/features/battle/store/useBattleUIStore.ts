@@ -13,10 +13,6 @@ export const useBattleUIStore = create<UseBattleUIStore>()(
         }),
         {
             name: "battle-ui-storage",
-            
-            onRehydrateStorage: () => (state) => {
-                console.log("Rehydrated UI store")
-            }
         }
     )
 )

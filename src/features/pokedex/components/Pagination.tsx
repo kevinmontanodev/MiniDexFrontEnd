@@ -17,8 +17,8 @@ export function Pagination({visiblePages,currentPage,totalPages,nextPage, setPag
                         {page + 1}
                 </Button>
             ))}
-            {visiblePages.at(-1)! < totalPages && <span className="pt-3">...</span>}
-            <Button onClick={() => animatedPageChange(nextPage)} disabled={currentPage == totalPages} customStyle="bg-white/20 hover:bg-white/10">
+            {visiblePages.at(-1)! < totalPages - 1 && <span className="pt-3">...</span>}
+            <Button onClick={() => animatedPageChange(nextPage)} disabled={currentPage == totalPages - 1} customStyle="bg-white/20 hover:bg-white/10">
                 Next
             </Button>
         </div>

@@ -10,6 +10,7 @@ import { PlayerActionsPanel } from "./PlayerActionsPanel";
 import { BattleTeam } from "./BattleTeam";
 import { useBattleTurn } from "../hooks/useBattleTurn";
 import { useBgm } from "@/features/audio/hooks/useBgm";
+import { BattleRulesModal } from "./BattleRulesModal";
 
 export function BattleCamp(){
     const {playerPokemon, enemyPokemon, playerHp, enemyHp,battleInfo, hasHydrated, enemyTeam, playerTeam, rewards } = useBattleStore()
@@ -48,6 +49,8 @@ export function BattleCamp(){
             {(phase !== "fighting") && <div className="overlay-battle-camp fixed bg-black z-50 inset-0 opacity-100"/>}
 
             {showFinish && rewards && <FinishBattleScene rewards={rewards} />}
+
+            <BattleRulesModal/>
             
             <CurrentBattlePokemonCard battlePokemon={enemyPokemon} currentHp={enemyHp} customStyles="absolute top-4 right-0 z-40"/>
             

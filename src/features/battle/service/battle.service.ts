@@ -38,12 +38,12 @@ export const playTurn = async (turn: BattleTurnRequest) => {
         const data = await res.json()
 
         if (!res.ok){
-            return {success: false, message: data.error || "Can't play the turn"}
+            return {success: false, message: data.error || "Can't play the turn", status: res.status}
         }
 
-        return {success: true, turn: data as BattleTurnResponse}
+        return {success: true, turn: data as BattleTurnResponse, status: res.status}
     } catch (error) {
-        return {success: false, message: "Server connection error"}
+        return {success: false, message: "Server connection error", status: 500}
     }
 }
 

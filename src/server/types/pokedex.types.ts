@@ -22,4 +22,5 @@ export interface RemovePokemonFromPokedexResponse {
     level: number
     xp: number
     coins: number
+    coinsReceived: number
 }
