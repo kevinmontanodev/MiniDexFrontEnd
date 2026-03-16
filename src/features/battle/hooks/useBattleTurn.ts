@@ -20,12 +20,11 @@ export function useBattleTurn(currentMoveName:string | null, setCurrentMoveName:
     const setPhase = useBattleUIStore(s => s.setPhase)
     const playerTimer = useBattleStore(s => s.playerSwitchTimer)
     const updatePlayerTimer = useBattleStore(s => s.updatePlayerSwitchTimer)
+    const clearBattle = useBattleStore(s => s.clearBattle)
 
     const switchPokemon = async (id: string) => {
         if (!battleInfo?.battleId || battleInfo.status !== "IN_PROGRESS") {
-            alert('Battle is Finish', "The battle alreadyFinish")
-            setPhase("idle")
-            await navigate('/trainers/pokedex')
+            await battleAlreadyFinish()
             return
         }
     
@@ -41,17 +40,15 @@ export function useBattleTurn(currentMoveName:string | null, setCurrentMoveName:
         const ok = await confirm("Switch Pokemon", "Do you want switch this pokemon?")
     
         if (!ok) return
-    
-        const request : BattleTurnRequest = {
-            battleId: battleInfo.battleId,
-            pokemonUuid: newCurrentPokemon.pokemonId,
-            moveName: '',
-            action: "SWITCH"
-        } 
 
-        setCurrentMessage('waiting enemy move...')
+        setCurrentMessage(['waiting enemy move...'])
 
-        const res = await playTurn(request)
+        const res = await playTurn(buildTurnRequest("SWITCH", battleInfo.battleId, newCurrentPokemon.pokemonId, ''))
+
+        if (res.status === 404){
+            await battleAlreadyFinish()
+            return
+        }
     
         if (!res.success || !res.turn){
             alert("Error switching", res.message)
@@ -66,9 +63,7 @@ export function useBattleTurn(currentMoveName:string | null, setCurrentMoveName:
     
     const attack = async () => {
         if (!battleInfo?.battleId || !playerPokemon || !currentMoveName || battleInfo.status !== "IN_PROGRESS") {
-            alert('Battle is Finish', "The battle alreadyFinish")
-            setPhase("idle")
-            await navigate('/trainers/pokedex')
+            await battleAlreadyFinish()
             return
         }
 
@@ -77,16 +72,14 @@ export function useBattleTurn(currentMoveName:string | null, setCurrentMoveName:
             return
         }
 
-        const attackInfo : BattleTurnRequest = {
-            battleId: battleInfo.battleId,
-            pokemonUuid: playerPokemon.pokemonId,
-            moveName: currentMoveName,
-            action : "ATTACK"
-        }
-
-        setCurrentMessage('waiting enemy move...')
+        setCurrentMessage(['waiting enemy move...'])
         
-        const res = await playTurn(attackInfo)
+        const res = await playTurn(buildTurnRequest("ATTACK", battleInfo.battleId, playerPokemon.pokemonId, currentMoveName))
+
+        if (res.status === 404){
+            await battleAlreadyFinish()
+            return
+        }
 
         if (!res.success || !res.turn){
             alert("Error play turn", res.message)
@@ -101,6 +94,24 @@ export function useBattleTurn(currentMoveName:string | null, setCurrentMoveName:
             updateBattleStatus(turnResults.status)
             setShowFinal(true)
         }
+    }
+
+    const battleAlreadyFinish = async () => {
+        alert('Battle is Finish', "The battle alreadyFinish")
+        setPhase("idle")
+        clearBattle()
+        await navigate("/trainers/pokedex")
+    }
+
+    const buildTurnRequest = (action : "SWITCH" | "ATTACK", battleId: string, pokemonUuid: string, moveName: string) => {
+        const request : BattleTurnRequest = {
+            battleId,
+            pokemonUuid,
+            moveName,
+            action
+        } 
+
+        return request
     }
 
     const executeSwitch = async (id: string) => {
