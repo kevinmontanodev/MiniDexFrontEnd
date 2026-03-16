@@ -1,6 +1,7 @@
 ---
 import { GlobalAlert } from "@/components/ui/GlobalAlert";
 import { LoginForm } from "@/features/auth/components/LoginForm";
+import Disclaimer from "@/components/Disclaimer.astro";
 import '@/styles/global.css'
 ---
 <!DOCTYPE html>
@@ -15,6 +16,8 @@ import '@/styles/global.css'
     <section class="w-screen h-screen bg-fixed relative flex items-center justify-center bg-gradient-to-tl from-[#1500F7] via-[#6D02C6] to-[#CB0492]">
         <LoginForm client:load />
         <GlobalAlert client:load />
+
+        <Disclaimer/>
     </section>
 </body>
 </html>
