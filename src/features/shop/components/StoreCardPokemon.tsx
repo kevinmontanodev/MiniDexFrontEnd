@@ -3,15 +3,19 @@ import { useShop } from "../hooks/useShop"
 import type { StoreCardPokemonProps } from "../types/shop.types"
 import { useState } from "react"
 import { PurchaseSpecialPokemonModal } from "./PurchaseSpecialPokemonModal"
+import { playSound } from "@/features/audio/utils/playSound"
+import { useBgm } from "@/features/audio/hooks/useBgm"
 
 export function StoreCardPokemon({specialPokemon, specialPokemonPrice, specialPokemonPurchased}: StoreCardPokemonProps) {
     const {isAlreadyPurchased, buyPokemon, confirmPurchased} = useShop(specialPokemon, specialPokemonPurchased, specialPokemonPrice)
     const [showAcquire, setShowAcquire] = useState(false)
     const [snapshotPokemon, setSnapshotPokemon] = useState(specialPokemon)
+    useBgm("menu")
 
     const handleBuy = async () => {
         const success = await buyPokemon()
         if (!success) return
+        playSound("shiny")
         setSnapshotPokemon(specialPokemon)
         setShowAcquire(true)
         confirmPurchased()

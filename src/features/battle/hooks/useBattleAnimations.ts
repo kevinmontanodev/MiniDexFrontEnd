@@ -5,6 +5,8 @@ import { HIT_EFFECTS } from "../const/hitEffects"
 import { getColorByMoveType } from "../utils/getColorByMoveType"
 import type { UseBattleAnimationsReturn } from "../types/battle.types"
 import gsap from "gsap";
+import { playSound } from "@/features/audio/utils/playSound"
+import { useAudioStore } from "@/features/audio/store/useAudioStore"
 
 
 export const useBattleAnimations  = () : UseBattleAnimationsReturn => {
@@ -15,6 +17,8 @@ export const useBattleAnimations  = () : UseBattleAnimationsReturn => {
     const enemyCoverRef = useRef(null)
     
     const processEvent = useBattleStore(s => s.processEvent)
+    const stopAudio = useAudioStore(s => s.stopBgm)
+    
 
     const play = async (e : BattleEvent) => {
         const animation = animationMap[e.type]
@@ -31,6 +35,8 @@ export const useBattleAnimations  = () : UseBattleAnimationsReturn => {
                 resolve()
                 processEvent(event)
             }})
+
+            stopAudio()
 
             const winner = event.playerWin ? playerRef.current : enemyRef.current
 
@@ -91,8 +97,12 @@ export const useBattleAnimations  = () : UseBattleAnimationsReturn => {
                     repeat: 9,
                     ease: "rough",
                 })
+                .call(() => {
+                    playSound("hit")
+                }, [], "<0.05")
 
                 tl.to(defender, { filter: "none", opacity: 1 })
+                
             }
         })
     }
@@ -128,7 +138,8 @@ export const useBattleAnimations  = () : UseBattleAnimationsReturn => {
                 duration: 0.6,
                 ease: "elastic.in"
             })
-            tl.call(() => {    
+            tl.call(() => {
+                playSound("pokemonOut")    
                 processEvent(event)
             })
 
@@ -209,6 +220,7 @@ export const useBattleAnimations  = () : UseBattleAnimationsReturn => {
             })
             
             tl.call(() => {
+                playSound("pokemonOut")    
                 processEvent(event)
             })
 
@@ -237,6 +249,10 @@ export const useBattleAnimations  = () : UseBattleAnimationsReturn => {
             } });
 
             const {element, cover} = getSideElements(event.side)
+
+            tl.call(() => {
+                playSound("faint")
+            })
         
             tl.to(cover, {
                 scale: 1,

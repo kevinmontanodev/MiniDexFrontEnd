@@ -3,10 +3,12 @@ import { EnvelopeFace } from "./EnvelopeFace";
 import type { EnvelopeContainerProps } from "../types/pack.types";
 import { usePack } from "../hooks/usePack";
 import { EnvelopeLoading } from "./EnvelopeLoading";
+import { useBgm } from "@/features/audio/hooks/useBgm";
 
 
 export function EnvelopesContainer({initialAmount, packPrice, emptyMessage = "No hay sobres disponibles"}: EnvelopeContainerProps){
     const {pokemons, packs, consumePack, activePackId, openPack, isOpening} = usePack({initialAmount, packPrice})
+    useBgm("menu")
 
     return (
         <>

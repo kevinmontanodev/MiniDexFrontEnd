@@ -2,9 +2,11 @@ import { Config } from "@/components/icons/Config";
 import { useTrainer } from "../hooks/useTrainer";
 import { UpdateTrainerForm } from "./UpdateTrainerForm";
 import type { TrainerProfile } from "../types/trainer.types";
+import { useBgm } from "@/features/audio/hooks/useBgm";
 
 export function TrainerProfile({trainerProfile}:{trainerProfile: TrainerProfile}){
     const {trainer, userData, openModal, closeModal, caughtPokemons, showModal, updateTrainer, handleChange} = useTrainer(trainerProfile)
+    useBgm("menu")
 
     return (
         <>
