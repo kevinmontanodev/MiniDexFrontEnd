@@ -8,8 +8,12 @@ export const POST:APIRoute = async ({locals, params}) => {
         if (!locals.token){
             return Response.json({message: "Unhautorize"}, {status: 403})
         }
+
         const pokemonId = params.pokemonId
-        return Response.json(await evolPokemon(locals.token!, pokemonId!))
+        if (!pokemonId){
+            return Response.json({message: "Pokemon id not found"}, {status: 404})
+        }
+        return Response.json(await evolPokemon(locals.token, pokemonId))
     } catch (error) {
         return handleApiError(error)
     }
