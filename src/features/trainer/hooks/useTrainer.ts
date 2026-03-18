@@ -10,7 +10,7 @@ export function useTrainer() : UseTrainerReturn {
     const setTrainer = useMiniDexStore(state => state.setTrainer) 
     const trainer = useMiniDexStore(state => state.trainer)
     const {alert} = useAlertStore()
-    let caughtPokemonsRef = 0
+    const [caughtPokemons, setCaughtPokemons] = useState(0)
 
     useEffect(() => {
         getTrainerData()
@@ -25,7 +25,7 @@ export function useTrainer() : UseTrainerReturn {
         }
 
         const {caughtPokemons, ...trainerData} = res.data
-        caughtPokemonsRef = caughtPokemons
+        setCaughtPokemons(caughtPokemons)
         setTrainer({...trainerData})
     
         setUserData({name: trainerData.name, username: trainerData.username})
@@ -70,7 +70,7 @@ export function useTrainer() : UseTrainerReturn {
         handleChange,
         openModal,
         showModal,
-        caughtPokemons: caughtPokemonsRef,
+        caughtPokemons,
         userData,
         closeModal,
         trainer
