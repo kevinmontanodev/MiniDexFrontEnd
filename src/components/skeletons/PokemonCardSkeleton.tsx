@@ -4,7 +4,7 @@ export function PokemonCardSkeleton({ heigth = "h-24", width = "w-24", animate =
             className={`pokemon-card ${width} ${heigth} rounded p-1 text-center shadow-md overflow-hidden`}
         >
             <figure className="bg-black/10 rounded flex w-full h-full items-center justify-center">
-                <div className={`w-20 h-20 rounded ${animate ? 'skeleton-shimmer' : ''}`}></div>
+                <div className={`w-full h-full rounded ${animate ? 'skeleton-shimmer' : ''}`}></div>
             </figure>
         </div>
     )
