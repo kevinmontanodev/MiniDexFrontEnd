@@ -120,7 +120,14 @@ export async function evolvePokemon(id:string) : Promise<EvolPokemonResponse> {
             credentials: "include"
         })
 
-        const data = await res.json()
+        const text = await res.text()
+        console.log("RAW RESPONSE: ", text)
+        let data
+        try {
+            data = JSON.parse(text)
+        } catch {
+            data = {message: text}
+        }
 
         if (!res.ok){
             return {success: false, message: data.message || "Pokemon can't evolve"}
