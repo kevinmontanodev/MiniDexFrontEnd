@@ -57,7 +57,11 @@ export async function getPokemonTeam() : Promise<PokemonTeamResponse> {
 export const removePokemonFromPokedex = async (id:string): Promise<TransferPokemonResponse> => {
     try {
 
-        const res = await fetch(`/api/pokedex/${id}`, {method: "DELETE"});
+        const res = await fetch(`/api/pokedex/${id}`, 
+            {   method: "DELETE",
+                credentials: "include"
+            }
+        );
 
         const data = await res.json()
     
@@ -75,7 +79,8 @@ export async function addPokemonToTeam(id: string) {
     try {
         const res = await fetch("/api/pokedex/team", {
             method: "POST",
-            body: JSON.stringify({pokemonId: id})
+            body: JSON.stringify({pokemonId: id}),
+            credentials: "include"
         })
 
         const data = await res.json().catch(() => {})
@@ -93,7 +98,8 @@ export async function addPokemonToTeam(id: string) {
 export async function removePokemonFromTeam(id:string) {
     try {
         const res = await fetch(`/api/pokedex/team/${id}`, {
-            method: "DELETE"
+            method: "DELETE",
+            credentials: "include"
         })
 
         if (!res.ok){
@@ -110,7 +116,8 @@ export async function removePokemonFromTeam(id:string) {
 export async function evolvePokemon(id:string) : Promise<EvolPokemonResponse> {
     try {
         const res = await fetch(`/api/pokedex/evolve/${id}`, {
-            method: "POST"
+            method: "POST",
+            credentials: "include"
         })
 
         const data = await res.json()
