@@ -13,7 +13,7 @@ export const onRequest: MiddlewareHandler = async (context, next) => {
 
     // if token does not exist, redirect to the login page
     if (!token){
-        return Response.redirect(new URL("/login", context.url), 302)
+        return Response.redirect(new URL("https://kmontano-minidex.vercel.app/login", context.url), 302)
     }
 
     // save token in locals
