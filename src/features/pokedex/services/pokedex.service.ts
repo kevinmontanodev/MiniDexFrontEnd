@@ -97,10 +97,9 @@ export async function addPokemonToTeam(id: string) {
 
 export async function removePokemonFromTeam(id:string) {
     try {
-        const res = await fetch(`/api/pokedex/team`, {
+        const res = await fetch(`/api/pokedex/team/${id}`, {
             method: "DELETE",
-            credentials: "include",
-            body: JSON.stringify({ id })
+            credentials: "include"
         })
 
         if (!res.ok){
@@ -121,14 +120,7 @@ export async function evolvePokemon(id:string) : Promise<EvolPokemonResponse> {
             credentials: "include"
         })
 
-        const text = await res.text()
-        console.log("RAW RESPONSE: ", text)
-        let data
-        try {
-            data = JSON.parse(text)
-        } catch {
-            data = {message: text}
-        }
+        const data = await res.json()
 
         if (!res.ok){
             return {success: false, message: data.message || "Pokemon can't evolve"}
