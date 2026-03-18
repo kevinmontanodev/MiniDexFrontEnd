@@ -7,7 +7,7 @@ export const onRequest: MiddlewareHandler = async (context, next) => {
     const pathname = context.url.pathname
 
     // public routes
-    if (pathname.startsWith("/login") || pathname.startsWith("/api/auth/login") || pathname.startsWith("/api/auth/register") ){
+    if (pathname.startsWith("/login") || pathname.startsWith("/api/auth/login") || pathname.startsWith("/api/auth/register") || pathname.startsWith("/api/auth/logout")){
         return next()
     }
 
