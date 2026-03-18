@@ -1,7 +1,12 @@
 import type { APIRoute } from "astro";
 
-export const POST: APIRoute = async ({cookies , redirect}) => {
+export const POST: APIRoute = async ({cookies}) => {
     cookies.delete("token", {path: "/"})
 
-    return redirect("/", 307)
+    return new Response(JSON.stringify({ message: "Logged out" }), {
+        status: 200,
+        headers: {
+            "Content-Type": "application/json"
+        }
+    })
 }

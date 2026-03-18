@@ -17,16 +17,35 @@
 				<a href="/trainers/me" class="hover:bg-zinc-200/30 p-2 rounded-sm transition-all">Profile</a>
 			</li>
 			<li>
-				<form action="/api/auth/logout" method="POST" class="flex p-0 m-0">
-					<button
+				<button
+					id="logout-btn"
 					type="submit"
 					class="hover:bg-zinc-200/30 px-2  rounded-sm transition-all cursor-pointer"
 					title="Log out from your account"
 					>
 					Log out
-					</button>
-				</form>
+				</button>
 			</li>
 		</ul>
 	</nav>
 </header>
+
+<script>
+	const logoutBtn = document.querySelector("#logout-btn")
+
+	logoutBtn?.addEventListener('click', async () => {
+		try {
+			const response = await fetch('/api/auth/logout', {
+				method: 'POST',
+			});
+
+			if (response.ok) {
+				window.location.href = '/';
+			} else {
+				window.location.href = '/';
+			}
+		} catch (error) {
+			console.error('Error de red:', error);
+		}
+	});
+</script>
