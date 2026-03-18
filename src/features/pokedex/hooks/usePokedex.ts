@@ -18,10 +18,6 @@ export function usePokedex() : UsePokedexReturn {
 
     useEffect(() => {
         fetchPage(0)
-    }, [])
-
-    useEffect(() => {
-        fetchPage(0)
     }, [filters])
 
     useEffect(() => {
@@ -29,11 +25,7 @@ export function usePokedex() : UsePokedexReturn {
     }, [refetch])
 
     async function refetch() {
-        setLoading(true)
-        const data = await getPokedex({page: currentPage, size: 12, type: filters.type, shiny: filters.shiny, orderByPokedex: filters.orderByPokedex})
-        
-        setPageData(data)
-        setLoading(false)
+        fetchPage(currentPage)
     }
 
     async function fetchPage(page = currentPage){
