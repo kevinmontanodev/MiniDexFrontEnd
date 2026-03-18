@@ -1,4 +1,4 @@
-import type { EvolPokemonResponse, PokedexPageInfo, TransferPokemonResponse } from "../types/pokedex.types";
+import type { EvolPokemonResponse, PokedexPageInfo, PokemonTeamResponse, TransferPokemonResponse } from "../types/pokedex.types";
 
 export const getPokedex = async ({page = 0, size = 12, type, shiny, orderByPokedex}:
     {page?:number, size?:number, type?:string, shiny?:boolean, orderByPokedex?:boolean}) : Promise<PokedexPageInfo> => {
@@ -36,6 +36,23 @@ export const getPokedex = async ({page = 0, size = 12, type, shiny, orderByPoked
     }
 }
 
+export async function getPokemonTeam() : Promise<PokemonTeamResponse> {
+    try {
+        const res = await fetch(`/api/pokedex/team`, {
+            method: "GET"
+        })
+
+        const data = await res.json()
+
+        if (!res.ok){
+            return {success: false, message: data.message || "Can't get Pokemon Team"}
+        }
+
+        return {success: true, data: data}
+    } catch (error) {
+        return {success: false, message: "Server connection error"}
+    }
+}
 
 export const removePokemonFromPokedex = async (id:string): Promise<TransferPokemonResponse> => {
     try {

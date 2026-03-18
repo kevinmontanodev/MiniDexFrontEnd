@@ -6,8 +6,8 @@ import { AnimatePresence, motion } from "framer-motion"
 import { useMiniDexStore } from "@/stores/useMiniDexStore"
 import { useBgm } from "@/features/audio/hooks/useBgm"
 
-export function TeamPokemon({pokemonTeamFromRequest} : {pokemonTeamFromRequest: Pokemon[]}){
-    const { pokemonTeam, removeFromTeam, spaceToFill } = usePokemonTeam(pokemonTeamFromRequest)
+export function TeamPokemon(){
+    const { pokemonTeam, removeFromTeam, spaceToFill } = usePokemonTeam()
     const setCurrentPokemonDetails = useMiniDexStore(s => s.setCurrentPokemonDetails)
     useBgm("menu")
 

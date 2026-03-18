@@ -5,8 +5,8 @@ import { getVisiblePages } from "../utils/getVisiblePages";
 import { getPokedex } from "../services/pokedex.service";
 import { usePokedexRefreshStore } from "../store/usePokedexRefreshStore";
 
-export function usePokedex(initalPage: PokedexPageInfo) : UsePokedexReturn {
-    const [pageData, setPageData] = useState(initalPage)
+export function usePokedex() : UsePokedexReturn {
+    const [pageData, setPageData] = useState<PokedexPageInfo | null>(null)
     const [loading, setLoading] = useState(false)
     const setRefresh = usePokedexRefreshStore(s => s.setRefresh)
     const [filters, setFilters] = useState({
@@ -15,6 +15,10 @@ export function usePokedex(initalPage: PokedexPageInfo) : UsePokedexReturn {
         orderByPokedex: false
     })
     const [currentPage, setCurrentPage] = useState(0)
+
+    useEffect(() => {
+        fetchPage(0)
+    }, [])
 
     useEffect(() => {
         fetchPage(0)
@@ -65,14 +69,17 @@ export function usePokedex(initalPage: PokedexPageInfo) : UsePokedexReturn {
     }
 
     const visiblePages = useMemo(() => {
+        if (!pageData?.totalPages) return []
+        
         return getVisiblePages(currentPage, pageData.totalPages)
-    }, [currentPage, pageData.totalPages])
+
+    }, [currentPage, pageData?.totalPages])
 
     const interactions = usePokedexInteraction()
 
     return {
-        pokemons: pageData.pokemons,
-        totalPages: pageData.totalPages,
+        pokemons: pageData?.pokemons || [],
+        totalPages: pageData?.totalPages || 0,
         currentPage,
         filters,
         visiblePages,

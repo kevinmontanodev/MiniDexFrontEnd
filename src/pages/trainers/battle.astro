@@ -6,10 +6,10 @@ import Layout from "@/layouts/Layout.astro";
 
 <Layout title="Minidex | Battle">
     <section class="bg-battle px-4 relative text-white h-screen w-full flex justify-center items-center" >
-        <BattleCamp client:load/>
+        <BattleCamp client:only="react"/>
     </section>
     
-	<BattleTransitionScene client:load />
+	<BattleTransitionScene client:only="react" />
 
 </Layout>
 

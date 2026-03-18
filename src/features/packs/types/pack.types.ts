@@ -12,6 +12,13 @@ export interface openEnvelopeResponse {
     pokemons?: PackPokemon[]
 }
 
+export interface DailyPackStatusResponse {
+    success: boolean
+    message?: string
+    numEnvelopes?: number
+    lastResetDate?: string
+}
+
 export interface PackState {
     id:string,
     hidden:boolean

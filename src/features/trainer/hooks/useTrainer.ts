@@ -1,20 +1,35 @@
 import { useAlertStore } from "@/stores/useAlertStore";
 import { useMiniDexStore } from "@/stores/useMiniDexStore";
 import { useEffect, useState, type ChangeEvent } from "react";
-import { updateTrainerData } from "../services/trainer.service";
-import type { TrainerProfile, UserData, UseTrainerReturn } from "../types/trainer.types";
+import { getTrainerProfile, updateTrainerData } from "../services/trainer.service";
+import type { UserData, UseTrainerReturn } from "../types/trainer.types";
 
-export function useTrainer(trainerProfile: TrainerProfile) : UseTrainerReturn {
+export function useTrainer() : UseTrainerReturn {
     const [showModal, setShowModal] = useState(false);
-    const [userData, setUserData] = useState<UserData>({name: trainerProfile.name, username: trainerProfile.username});
+    const [userData, setUserData] = useState<UserData>({name: "", username: ""});
     const setTrainer = useMiniDexStore(state => state.setTrainer) 
     const trainer = useMiniDexStore(state => state.trainer)
     const {alert} = useAlertStore()
+    let caughtPokemonsRef = 0
 
     useEffect(() => {
-        const {caughtPokemons, ...trainerData} = trainerProfile
-        setTrainer({...trainerData})
+        getTrainerData()
     }, [])
+
+    const getTrainerData = async () => {
+        const res = await getTrainerProfile()
+    
+        if (!res.success || !res.data){
+            alert("Error Getting Trainer Profile", "Can't get trainer Profile data, try later...")
+            return
+        }
+
+        const {caughtPokemons, ...trainerData} = res.data
+        caughtPokemonsRef = caughtPokemons
+        setTrainer({...trainerData})
+    
+        setUserData({name: trainerData.name, username: trainerData.username})
+    }
     
     const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
         setUserData(prev => ({
@@ -55,7 +70,7 @@ export function useTrainer(trainerProfile: TrainerProfile) : UseTrainerReturn {
         handleChange,
         openModal,
         showModal,
-        caughtPokemons: trainerProfile.caughtPokemons,
+        caughtPokemons: caughtPokemonsRef,
         userData,
         closeModal,
         trainer

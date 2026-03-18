@@ -9,7 +9,7 @@ import { PokemonActions } from "./PokemonActions"
 export function PokemonDetails() {
     const currentPokemon = useMiniDexStore((state) => state.currentPokemonDetails)
      
-    if (!currentPokemon) return <section className="[grid-area:pokemonDetail] bg-black/20 rounded-sm overflow-hidden text-white">Select Pokemon</section>
+    if (!currentPokemon) return <section className="[grid-area:pokemonDetail] bg-black/20 rounded-sm overflow-hidden text-white flex justify-center items-center">Select Pokemon</section>
 
     return (
         <>

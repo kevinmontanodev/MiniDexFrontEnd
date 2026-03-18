@@ -64,6 +64,23 @@ export interface EvolPokemonResponse {
     data?: EvolResponse
 }
 
+export interface PokemonTeamResponse {
+    success: boolean,
+    message?: string
+    data?: PokemonTeam
+}
+
+export interface PokemonTeam {
+    team: Pokemon[]
+}
+
+export interface PokedexPageInfo {
+    pokemons: Pokemon[]
+    page: number
+    totalPages: number
+    totalElements:number
+}
+
 
 // components types
 export interface PokedexPageInfo {

@@ -40,3 +40,20 @@ export interface TrainerProfile {
     loses: number,
     caughtPokemons: number
 }
+
+export interface TrainerProfile {
+    name: string
+    username: string
+    level: number
+    xp: number
+    coins: number,
+    wins: number,
+    loses: number,
+    caughtPokemons: number
+}
+
+export interface TrainerProfileResponse {
+    success: boolean,
+    message?: string
+    data?: TrainerProfile
+}

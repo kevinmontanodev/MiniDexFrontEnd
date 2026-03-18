@@ -4,8 +4,8 @@ import { UpdateTrainerForm } from "./UpdateTrainerForm";
 import type { TrainerProfile } from "../types/trainer.types";
 import { useBgm } from "@/features/audio/hooks/useBgm";
 
-export function TrainerProfile({trainerProfile}:{trainerProfile: TrainerProfile}){
-    const {trainer, userData, openModal, closeModal, caughtPokemons, showModal, updateTrainer, handleChange} = useTrainer(trainerProfile)
+export function TrainerProfile(){
+    const {trainer, userData, openModal, closeModal, caughtPokemons, showModal, updateTrainer, handleChange} = useTrainer()
     useBgm("menu")
 
     return (

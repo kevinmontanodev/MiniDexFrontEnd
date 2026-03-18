@@ -1,19 +1,29 @@
-import type { Pokemon } from "@/interfaces/pokemon";
 import { useAlertStore } from "@/stores/useAlertStore";
 import { useMiniDexStore } from "@/stores/useMiniDexStore";
 import { useEffect } from "react";
-import { removePokemonFromTeam } from "../services/pokedex.service";
+import { getPokemonTeam, removePokemonFromTeam } from "../services/pokedex.service";
 import type { UsePokemonTeamReturn } from "../types/pokedex.types";
 
-export function usePokemonTeam(initialTeam: Pokemon[]) : UsePokemonTeamReturn {
+export function usePokemonTeam() : UsePokemonTeamReturn {
     const pokemonTeam = useMiniDexStore(state => state.pokemonTeam)
     const setPokemonTeam = useMiniDexStore(state => state.setPokemonTeam)
     const MAX_POKEMONS_IN_TEAM = 6
-    const {confirm} = useAlertStore()
+    const {confirm,alert} = useAlertStore()
 
     useEffect(() => {
-        setPokemonTeam(initialTeam)
-    }, [initialTeam, setPokemonTeam])
+        getTeam()
+    }, [setPokemonTeam])
+
+    const getTeam = async () => {
+        const res = await getPokemonTeam()
+
+        if (!res.success || !res.data) {
+            alert("Can't get Team", res?.message || "" )
+            return
+        }
+
+        setPokemonTeam(res.data.team)
+    }
 
     const removeFromTeam = async (id: string) => {
         const accepted = await confirm("Remove from team", "Dou you want remove this pokemon from team?")

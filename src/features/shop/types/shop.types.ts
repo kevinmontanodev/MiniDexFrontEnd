@@ -15,6 +15,20 @@ export interface TrainerDataAfterPurchase {
     level: number
 }
 
+export interface DailyShopStateResponse {
+    success: boolean,
+    message?: string,
+    data?: DailyShopResponse
+}
+
+export interface DailyShopResponse {
+    specialPokemon: PackPokemon
+    specialPokemonPrice : number
+    specialPokemonPurchased : boolean
+    boosterPrice : number
+    boostersRemaining : number
+}
+
 // components
 export interface StoreCardPokemonProps {
     specialPokemon: PackPokemon

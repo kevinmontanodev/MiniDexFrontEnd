@@ -4,10 +4,9 @@ import { useEffect, useRef } from "react";
 import gsap from "gsap";
 import { Filter } from "./Filter";
 import { Pagination } from "./Pagination";
-import type { PokedexPageInfo } from "../types/pokedex.types";
 import { PokemonCardSkeleton } from "@/components/skeletons/PokemonCardSkeleton";
 
-export function PokedexContainer({pokedexPage}:{pokedexPage: PokedexPageInfo }){
+export function PokedexContainer(){
     const containerRef = useRef<HTMLDivElement>(null)
     const {pokemons, 
         hoverPokemon, 
@@ -18,7 +17,7 @@ export function PokedexContainer({pokedexPage}:{pokedexPage: PokedexPageInfo }){
         setPage, 
         loading,
         visiblePages,
-        currentPage, filters, changeType, toggleShiny, toggleOrder} = usePokedex(pokedexPage)
+        currentPage, filters, changeType, toggleShiny, toggleOrder} = usePokedex()
 
     const animatedPageChange = (callback: () => void) => {
         const cards = containerRef.current?.querySelectorAll(".pokemon-card")
