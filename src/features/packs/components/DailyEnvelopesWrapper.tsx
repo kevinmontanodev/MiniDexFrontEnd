@@ -23,6 +23,6 @@ export function DailyEnvelopesWrapper(){
         setInitialAmount(res.numEnvelopes)
     }
     return !initialAmount 
-            ? <PokemonCardSkeleton heigth="h-64" width="w-xl" /> 
+            ? <div className="flex w-full justify-center items-center mx-auto"><PokemonCardSkeleton heigth="h-64" width="w-xl" /> </div>
             : <EnvelopesContainer initialAmount={initialAmount} />
 }
