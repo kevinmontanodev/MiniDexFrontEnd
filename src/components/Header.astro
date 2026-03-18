@@ -1,3 +1,7 @@
+---
+import { LogoutButton } from "@/features/auth/components/LogoutButton";
+---
+
 <header class="bg-white/20 flex justify-between items-center px-10 py-4 text-white">
 	<a href="/" class="cursor-pointer">
 		<img src="/pokeball.webp" alt="pokeball img that redirect to index" title="pokeball" class="w-6">
@@ -17,36 +21,8 @@
 				<a href="/trainers/me" class="hover:bg-zinc-200/30 p-2 rounded-sm transition-all">Profile</a>
 			</li>
 			<li>
-				<button
-					id="logout-btn"
-					type="submit"
-					class="hover:bg-zinc-200/30 px-2  rounded-sm transition-all cursor-pointer"
-					title="Log out from your account"
-					>
-					Log out
-				</button>
+				<LogoutButton client:load />
 			</li>
 		</ul>
 	</nav>
 </header>
-
-<script>
-	const logoutBtn = document.querySelector("#logout-btn")
-
-	logoutBtn?.addEventListener('click', async () => {
-		try {
-			const response = await fetch('/api/auth/logout', {
-				method: 'POST',
-			});
-
-			if (response.ok) {
-				window.location.href = '/login';
-			} else {
-				console.error("Logout error")
-				window.location.href = '/login';
-			}
-		} catch (error) {
-			console.error('Connection error:', error);
-		}
-	});
-</script>

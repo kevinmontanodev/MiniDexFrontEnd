@@ -42,3 +42,26 @@ export const authLogin = async (username: string, password:string) : Promise<Aut
     }
     
 }
+
+
+export const authLogout = async () => {
+    try {
+        const res = await fetch("/api/auth/logout", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+        })
+
+        const data = await res.json()
+
+        if (!res.ok){
+            return {success:false, message: data.message || "Failed to logout"};
+        }
+
+        return {success: true }
+
+    } catch (error) {
+        return {success: false, message: "Server connection error"}
+    }
+    
+}
+
