@@ -97,9 +97,10 @@ export async function addPokemonToTeam(id: string) {
 
 export async function removePokemonFromTeam(id:string) {
     try {
-        const res = await fetch(`/api/pokedex/team/${id}`, {
+        const res = await fetch(`/api/pokedex/team`, {
             method: "DELETE",
-            credentials: "include"
+            credentials: "include",
+            body: JSON.stringify({ id })
         })
 
         if (!res.ok){

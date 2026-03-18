@@ -9,6 +9,7 @@ export async function backendFetch<T = any>(
 ) : Promise<T> {
     const res = await fetch(`${BASE_URL}${path}`, {
         ...options,
+        credentials: "include",
         headers: {
             "Content-Type": "application/json",
             ...(options.headers || {})
